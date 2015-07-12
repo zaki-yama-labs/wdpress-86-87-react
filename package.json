@@ -1,0 +1,17 @@
+{
+  "name": "react",
+  "version": "0.0.0",
+  "description": "React Sample",
+  "main": "index.js",
+  "dependencies": {
+    "react": "^0.13.3"
+  },
+  "devDependencies": {
+    "reactify": "^1.1.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
