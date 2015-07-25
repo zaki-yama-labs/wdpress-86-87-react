@@ -8,8 +8,11 @@
     "react": "^0.13.3"
   },
   "devDependencies": {
+    "browserify": "^11.0.0",
     "fluxxor": "^1.6.0",
-    "reactify": "^1.1.1"
+    "gulp": "^3.9.0",
+    "reactify": "^1.1.1",
+    "vinyl-source-stream": "^1.1.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
