@@ -14,3 +14,6 @@ $ npm install --save-dev reactify
 $ watchify -t reactify static/jsx/src/app.jsx -o static/jsx/dst/app.js -v
 ```
 
+# Flux フレームワーク
+
+[Fluxxor](http://fluxxor.com/)

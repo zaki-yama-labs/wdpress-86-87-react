@@ -8,6 +8,7 @@
     "react": "^0.13.3"
   },
   "devDependencies": {
+    "fluxxor": "^1.6.0",
     "reactify": "^1.1.1"
   },
   "scripts": {
