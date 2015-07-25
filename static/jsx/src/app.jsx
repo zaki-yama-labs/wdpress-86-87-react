@@ -1,53 +1,54 @@
 var React = require('react');
-var mdparser = require('markdown').markdown;
 
-var App = React.createClass({
+var CounterApp = React.createClass({
   getInitialState: function() {
-    return { markdown: '' };
+    return { counter: 0 };
   },
 
-  updateMarkdown: function(markdown) {
-    this.setState({ markdown: markdown });
+  handlePlus: function() {
+    this.setState({ counter: this.state.counter + 1 });
+  },
+
+  handleMinus: function() {
+    this.setState({ counter: this.state.counter - 1 });
   },
 
   render: function() {
     return (
         <div>
-          <TextInput onChange={this.updateMarkdown} />
-          <Markdown markdown={this.state.markdown} />
+          <Counter value={this.state.counter}
+            onClickPlus={this.handlePlus}
+            onClickMinus={this.handleMinus} />
         </div>
         );
   }
 });
 
-var TextInput = React.createClass({
+var Counter = React.createClass({
   propTypes: {
-    onChange: React.propTypes.func.isRequired
-  },
-
-  _onChange: function(e) {
-    this.props.onChange(e.target.value);
+    value: React.PropTypes.number.isRequired,
+    onClickPlus: React.PropTypes.func.isRequired,
+    onClickMinus: React.PropTypes.func.isRequired
   },
 
   render: function() {
-    return <textarea onChange={this._onChange} />;
-  }
-});
-
-var Markdown = React.createClass({
-  propTypes: {
-    markdown: React.propTypes.string.isRequired
-  },
-
-  render: function() {
-    var html = mdparser.toHTML(this.props.markdown);
     return (
-      <div dangerouslySetInnerHTML={{__html:html}}></div>
+      <div>
+        <span>count: {this.props.value}</span>
+        <div>
+          <button onClick={this.props.onClickPlus}>
+            +1
+          </button>
+          <button onClick={this.props.onClickMinus}>
+            -1
+          </button>
+        </div>
+      </div>
     );
   }
 });
 
 React.render(
-    <App />,
-    document.getElementById('app-container')
-    );
+  <CounterApp />,
+  document.getElementById('app-container')
+);

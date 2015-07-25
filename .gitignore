@@ -8,6 +8,7 @@ index.yaml
 
 bin
 libs
+node_modules
 client_secrets.json
 parts
 .installed.cfg
