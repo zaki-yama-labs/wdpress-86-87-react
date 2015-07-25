@@ -8,6 +8,7 @@ index.yaml
 
 bin
 libs
+bower_components
 node_modules
 static/jsx/dst
 client_secrets.json

@@ -7,7 +7,7 @@ React Sample
 に掲載されていたサンプルアプリを GAE で。
 
 
-# Browserify によるビルド
+### Browserify によるビルド
 
 gulp のタスクとして定義したので
 
@@ -27,11 +27,11 @@ Google App Engine の開発サーバーは別途起動する必要がありま�
 $ /usr/local/google_appengine/dev_appserver.py .
 ```
 
-# Flux フレームワーク
+### Flux フレームワーク
 
 Flux のリファレンス実装として、記事に記載されていた [Fluxxor](http://fluxxor.com/) を使っています。
 
-# gulp タスクの作成
+### gulp タスクの作成
 
 `gulpfile.js` については以下の記事を参考にさせていただきました。
 
