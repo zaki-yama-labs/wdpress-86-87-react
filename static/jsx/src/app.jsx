@@ -1,53 +1,91 @@
 var React = require('react');
-var mdparser = require('markdown').markdown;
+var Fluxxor = require('fluxxor');
 
-var App = React.createClass({
-  getInitialState: function() {
-    return { markdown: '' };
+var constants = {
+  UPDATE_COUNTER: 'UPDATE_COUNTER',
+};
+
+// Store
+var CounterStore = Fluxxor.createStore({
+  initialize: function() {
+    this.counter = 0;
+    this.bindActions(
+      constants.UPDATE_COUNTER, this.onUpdateCounter
+    );
   },
 
-  updateMarkdown: function(markdown) {
-    this.setState({ markdown: markdown });
+  onUpdateCounter: function(payload) {
+    this.counter = this.counter + payload.value;
+    this.emit('change');
+  },
+
+  getState: function() {
+    return { counter: this.counter };
+  }
+});
+
+// Action (Action Creator)
+var actions = {
+  plusCounter: function() {
+    this.dispatch(constants.UPDATE_COUNTER, {value: 1});
+  },
+
+  minusCounter: function() {
+    this.dispatch(constants.UPDATE_COUNTER, {value: -1});
+  }
+};
+
+// React から利用する Mixin
+var FluxMixin = Fluxxor.FluxMixin(React),
+    StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
+// View (React)
+var CounterApp = React.createClass({
+  mixins: [ FluxMixin, StoreWatchMixin('CounterStore') ],
+
+  getStateFromFlux: function() {
+    return this.getFlux()
+               .store('CounterStore')
+               .getState();
+  },
+
+  render: function() {
+    return <Counter value={this.state.counter} />;
+  }
+});
+
+var Counter = React.createClass({
+  mixins: [ FluxMixin ],
+
+  propTypes: {
+    value: React.PropTypes.number.isRequired,
+  },
+
+  onClickPlus: function() {
+    return this.getFlux().actions.plusCounter();
+  },
+
+  onClickMinus: function() {
+    return this.getFlux().actions.minusCounter();
   },
 
   render: function() {
     return (
+      <div>
+        <span>count: {this.props.value}</span>
         <div>
-          <TextInput onChange={this.updateMarkdown} />
-          <Markdown markdown={this.state.markdown} />
+          <button onClick={this.onClickPlus}>+1</button>
+          <button onClick={this.onClickMinus}>-1</button>
         </div>
-        );
-  }
-});
-
-var TextInput = React.createClass({
-  propTypes: {
-    onChange: React.propTypes.func.isRequired
-  },
-
-  _onChange: function(e) {
-    this.props.onChange(e.target.value);
-  },
-
-  render: function() {
-    return <textarea onChange={this._onChange} />;
-  }
-});
-
-var Markdown = React.createClass({
-  propTypes: {
-    markdown: React.propTypes.string.isRequired
-  },
-
-  render: function() {
-    var html = mdparser.toHTML(this.props.markdown);
-    return (
-      <div dangerouslySetInnerHTML={{__html:html}}></div>
+      </div>
     );
   }
 });
+
+var stores = { CounterStore: new CounterStore() };
+var flux = new Fluxxor.Flux(stores, actions);
 
 React.render(
-    <App />,
-    document.getElementById('app-container')
-    );
+  <CounterApp flux={flux} />,
+  document.getElementById('app-container')
+);

@@ -8,6 +8,8 @@ index.yaml
 
 bin
 libs
+node_modules
+static/jsx/dst
 client_secrets.json
 parts
 .installed.cfg
